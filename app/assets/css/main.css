@@ -1,0 +1,21 @@
+
+.main {
+  width: 960px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #000;
+}
+
+h3 {
+  color: #959595;
+}
+
+td {
+  color: #959595;
+}
+
+.logo-bar {
+  background-image:url('/assets/images/logobar.jpg');
+  width: 960px;
+  height: 96px;
+}

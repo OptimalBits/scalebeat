@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+  <meta name="fragment" content="!">
+
+  <title>ScaleBeat!</title>
+
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <link 
+    rel="stylesheet" 
+    href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
+    media="screen"
+  />
+  <link rel="stylesheet" href="assets/css/main.css"/>
+
+  <script>
+    // Prevent IE from crashing
+    if(typeof console === 'undefined') {
+      console = {
+        log: function() {}  
+      }
+    }
+  </script>
+
+  <script type="text/javascript">
+    curl = {
+     // baseUrl: '/',
+      paths:{
+        css:'/assets/css',
+        //tmpl:'/assets/templates'
+      },
+    };
+  </script>
+  
+  <script src="vendor/pixi.js"></script>
+  <script src="lib/underscore.js"></script>
+  <script src="lib/curl.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body class="main">
+  
+  <!-- Main Container -->
+  <div class="container">
+    <div id="main-bar" class="logo-bar">
+    </div>
+ 
+    <!-- Scales Container -->
+    <div id="selection" class="row show-grid">
+      <div id="scales" class="col-md-4">
+        <h3>Scale</h3>
+        <select data-bind="value: app.scale">
+          <option data-each="scales: scale" 
+                  data-bind="value: scale.slug; text: scale.name">
+        </select>
+      </div>
+      
+      <div id="keys" class="col-md-4">
+        <h3>Key</h3>
+        <lu>
+          <select data-bind="value: app.key">
+            <option data-each="keys: key" 
+                    data-bind="value: key.slug; text: key.name">
+          </select>
+        </lu>
+      </div>
+      
+      <div id="modes" class="col-md-4">
+        <h3>Mode</h3>
+        <lu>
+          <select data-bind="value: app.mode">
+            <option data-each="modes: mode" 
+                    data-bind="value: mode.name; text: mode.name">
+          </select>
+        </lu>
+      </div>
+    </div>
+    <br>
+    
+    <!-- Fretboard Container -->
+    <div id="fretboard"></div>
+    
+    <!-- Degrees Container -->
+    <table id="chordsTable" class="table table-bordered">
+      <thead>
+        <tr>
+          <td>I</td>
+          <td>ii</td>
+          <td>iii</td>
+          <td>IV</td>
+          <td>V</td>
+          <td>vi</td>
+          <td>vii°</td>
+        </tr>
+      </thead>
+      
+      <tbody>
+        <!---
+        <tr data-each="chordTypes: type">
+        -->
+        <tr>
+          <td data-each="triads: chord" 
+              data-bind="text: chord.name"
+              data-event="mouseover: app.setChord">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+ 
+  <script>
+  curl(['domReady!', 'app'], function(){
+    console.log("Application Loaded");
+  });
+  </script>
+  
+</body>
+
+</html>

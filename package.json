@@ -1,0 +1,32 @@
+{
+    "name": "ScaleBeat"
+  , "version": "0.0.1"
+  , "description": "ScaleBeat Web App"
+  , "homepage": "http://gnd.io"
+  , "dependencies": {
+      "gnd": "*"
+    , "acl": "*"
+    , "cabinet": "*"
+    , "connect": "*"
+    , "redis": "*"
+    , "mongoose": "*"
+    , "underscore": "*"
+    , "socket.io": "0.9.10"
+    , "requirejs": "~2.1.8"
+    , "open": "*"
+    , "gnd-dropdown": "*"
+  },
+  "devDependencies": {
+      "mocha": "*"
+    , "expect.js": "*"
+    , "grunt": "~0.4.1"
+    , "grunt-contrib-requirejs": "~0.4.1"
+    , "grunt-contrib-copy": "~0.4.1"
+    , "grunt-contrib-compress": "~0.5.2"
+    , "grunt-contrib-clean": "~0.5.0"
+  },
+  "scripts":{
+      "test": "mocha test/test_main.js"
+    , "start": "node server.js"
+  }
+}
