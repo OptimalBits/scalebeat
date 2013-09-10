@@ -16,7 +16,7 @@ module.exports = {
   // Prefix for all the environment variables, for example, 
   // prefix 'GND' will require APP_PORT to be defined as GND_APP_PORT
   //
-  prefix: 'GND',
+  prefix: 'SCALEBEAT',
   
   //
   // Port to be used by the server, 0 means auto.
@@ -36,12 +36,12 @@ module.exports = {
   //
   // Mongo URI. 
   // 
-  MONGODB_URI: 'mongodb://localhost/ground',
+  MONGODB_URI: 'mongodb://localhost/scalebeat',
   
   //
   // Mongo URI when running unit tests
   //
-  MONGODB_TEST_URI: 'mongodb://localhost/groundTest',
+  MONGODB_TEST_URI: 'mongodb://localhost/scalebeatTest',
   
   //
   // Name of the cookie to use when enabling sessions.
