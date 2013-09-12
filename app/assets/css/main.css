@@ -14,6 +14,10 @@ td {
   color: #959595;
 }
 
+.footer {
+  text-align: center;
+}
+
 .logo-bar {
   background-image:url('/assets/images/logobar.jpg');
   width: 960px;
