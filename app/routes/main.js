@@ -195,19 +195,19 @@ return function(pool){
       app.set('scale', scale.slug);
       fretboardView.setScale(scale.formula, 0, 1);
       req.render(fretboardView);
-      
-      pool.autorelease(updateChordsTable(scale));
-    
-      req.get(':key', '#fretboard', function(){
+          
+      req.get(':key', '#fretboard', function(pool){
         var key = keys.findWhere({slug: req.params.key});
         if(key){
           app.set('key', key.slug);
-          
+                  
           req.get(':mode', '#fretboard', function(){
             
             var mode = modes.findWhere({name: req.params.mode});
             if(mode){
               app.set('mode', mode.name);
+              
+              pool.autorelease(updateChordsTable(key.semitone, scale, mode.pos));
               
               fretboardView.setScale(scale.formula, key.semitone, mode.pos);
               fretboardView.refresh();
@@ -221,7 +221,7 @@ return function(pool){
   });
 }
 
-function updateChordsTable(scale){
+function updateChordsTable(key, scale, mode){
   var triads = new Gnd.Collection(Gnd.Model, {nosync: true});
   
   var triadsFormulas = {
@@ -231,7 +231,9 @@ function updateChordsTable(scale){
   };
   
   for(var degree=1; degree<8; degree++){
-    var triad = Utils.matchChords(scale.formula, 
+    var triad = Utils.matchChords(key,
+                                  scale.formula,
+                                  mode,
                                   degree, 
                                   triadsFormulas)[0];
 

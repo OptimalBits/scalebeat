@@ -30,7 +30,7 @@ define(['gnd', 'utils'], function(Gnd, Utils){
         var intervals = Utils.intervalsToIngeger(formula)
         
         this.scaleFormula = 
-          Utils.scaleToKey(scaleToMode(Utils.scaleToKey(intervals, key), mode), key);
+          Utils.scaleToKey(Utils.scaleToMode(Utils.scaleToKey(intervals, key), mode), key);
       },
       setChord: function(chordFormula){
         this.chord = chordFormula;
@@ -39,6 +39,7 @@ define(['gnd', 'utils'], function(Gnd, Utils){
         var _this = this;
         
         return this.assetsPromise.then(function(){
+          
           // create an new instance of a pixi stage
           var stage = new PIXI.Stage(0xFFFFFF);
           
@@ -49,11 +50,6 @@ define(['gnd', 'utils'], function(Gnd, Utils){
           stage.addChild(g);
         
           var offset = (_this.viewHeight-_this.neckWidth)/2;
-  
-          // Draw neck
-          //g.beginFill(0x96712F, 1.0);
-          //g.drawRect(0, offset, _this.viewWidth, _this.neckWidth)
-          //g.endFill();
   
           // Draw frets
           g.lineStyle(6, 0xaa7020);
@@ -197,15 +193,6 @@ define(['gnd', 'utils'], function(Gnd, Utils){
       return this;
     };
   })();
-  
-  function scaleToMode(scale, mode){
-    // Rotate the array
-    var rotated = scale.rotate(mode-1);
-    
-    // compensate for the key
-    var key = rotated[0];
-    return Utils.scaleToKey(rotated, 12 - key);
-  }
   
   // Returns the chord notes as semitones of the given degree and chord formula
   // @param degree {Number} A degree from 1 to 7

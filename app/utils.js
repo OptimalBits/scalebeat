@@ -64,16 +64,23 @@ Utils.integerToNoteTable = {
   Matches all the chords for the given scale and degree, returning an 
   array of chord names.
 */
-Utils.matchChords = function(scale, degree, chords){
+Utils.matchChords = function(key, scale, mode, degree, chords){
+  
   scale = Utils.intervalsToIngeger(scale);
-    
+  scale = Utils.scaleToMode(scale, mode);
+  
   // Duplicate the scale
   scale = scale.concat(_.map(scale, function(interval){
     return interval+12;
   })).slice(degree-1);
   
+  scale = Utils.scaleToKey(scale, key, true);
+  
+  
+//  scale = Utils.scaleToKey(Utils.scaleToMode(Utils.scaleToKey(scale, key, true), mode), key, true);
+  
   var root = scale[0];
-  var rootNote = Utils.integerToNoteTable[root];
+  var rootNote = Utils.integerToNoteTable[root % 12];
   
   // Offset the scale
   scale = _.map(scale, function(interval){
@@ -95,10 +102,20 @@ Utils.matchChords = function(scale, degree, chords){
 }
 
 // Returns the scale relative to a given key
-Utils.scaleToKey = function(scale, key){
+Utils.scaleToKey = function(scale, key, nomod){
   return _.map(scale, function(semitone){
-    return (semitone + key) % 12;
+    var val = (semitone + key);
+    return nomod ? val : val % 12;
   });
+}
+
+Utils.scaleToMode = function(scale, mode){
+  // Rotate the array
+  var rotated = scale.rotate(mode-1);
+  
+  // compensate for the key
+  var key = rotated[0];
+  return Utils.scaleToKey(rotated, 12 - key);
 }
 
 return Utils;
