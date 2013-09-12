@@ -13,8 +13,6 @@ var Gnd = require('gnd')
   , staticDir = __dirname
   , path = require('path')
   , requirejs = require('requirejs');
-  
-console.log(Dropdown.build);
 
 switch(config.MODE){
   case 'development':
