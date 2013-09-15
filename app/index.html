@@ -36,7 +36,8 @@
   </script>
   
   <script src="vendor/pixi.js"></script>
-  <script src="lib/underscore.js"></script>
+  <script src="vendor/soundcloud.api.js"></script>
+  <script src="lib/lodash.js"></script>
   <script src="lib/curl.js"></script>
   <script src="/socket.io/socket.io.js"></script>
 </head>
@@ -84,6 +85,8 @@
     <div id="fretboard"></div>
     
     <!-- Degrees Container -->
+    <h3>Chords</h3>
+    
     <table id="chordsTable" class="table table-bordered">
       <thead>
         <tr>
@@ -109,6 +112,16 @@
         </tr>
       </tbody>
     </table>
+    
+    <h3>Tracks</h3>
+
+    <iframe 
+      width="100%" 
+      height="166" 
+      scrolling="no" 
+      frameborder="no" 
+      src="https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F47728925">
+    </iframe>
 
   </div>
   
