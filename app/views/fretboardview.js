@@ -102,10 +102,8 @@ define(['gnd', 'utils'], function(Gnd, Utils){
                                     
             for(var j=0; j<_this.numFrets; j++){
               var xpos = j*(_this.viewWidth/_this.numFrets);
-              switch(scale[j]){
-                case 'N': g.beginFill(0x60aacc); break;
-                case 'R': g.beginFill(0xffffff); break;
-                case 'A': g.beginFill(0x00FF00); break;
+              if(!_.isUndefined(scale[j])){
+                g.beginFill(scale[j]);
               }
               if(scale[j]){
                 var cxpos = 20+xpos;
@@ -152,17 +150,21 @@ define(['gnd', 'utils'], function(Gnd, Utils){
   function generateScale(formula, start, numFrets, chord){
     var firstNote;
     var note = start;
+    var chordKey = chord && chord[0];
     var scale = [];
     for(var i=0; i<numFrets; i++){
       var index = formula.indexOf(note);
       if(index != -1){
         firstNote = _.isUndefined(firstNote) ? index : firstNote;
-        if(index == 0){
-          scale[i] = 'R';
-        }else if(chord && chord.indexOf(formula[index]) != -1){
-          scale[i] = 'A';
-        }else{
-          scale[i] = 'N';
+        var a = chord && chord.indexOf(formula[index]);
+        if(!_.isUndefined(a) && a !== -1){
+          var interval = (chord[a] - chordKey);
+          interval = interval < 0 ? 12 + interval : interval;
+          scale[i] = intervalColorTable[interval];
+        } else if(index === 0 && _.isUndefined(chord)) {
+          scale[i] = 0xFFFFFF;
+        } else {
+          scale[i] = 0x909090;
         }
       }
       note ++;
@@ -172,6 +174,25 @@ define(['gnd', 'utils'], function(Gnd, Utils){
     }
     scale.firstNote = firstNote;
     return scale;
+  }
+  
+  /**
+    Interval Color Mapping
+  */
+  
+  var intervalColorTable = {
+    0: 0xFFFFFF, // White // Root / Octave
+    1: 0x0,
+    2: 0x0,
+    3: 0x00FF00, // Green  // Minor Third
+    4: 0xFF0000, // Red    // Major Third
+    5: 0x0000FF, // Blue // Perfect Fourth
+    6: 0x0,
+    7: 0x0FFFF00, // Yellow // Perfect Fifth
+    8: 0x0,
+    9: 0x0,
+    10: 0x0,
+    11: 0x0
   }
   
   Array.prototype.rotate = (function() {
