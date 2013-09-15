@@ -22,7 +22,7 @@ switch(config.MODE){
         '/gnd.js': Gnd.debug,
         '/gnd/dropdown.js': path.join(Dropdown.build, 'dropdown.js'),
         '/lib/curl.js': Gnd.third.curl,
-        '/lib/underscore.js': Gnd.third.underscore
+        '/lib/lodash.js': Gnd.vendor.lodash
       }
     }));
     break;

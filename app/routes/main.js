@@ -177,8 +177,56 @@ app.setChord = function(el){
 }
 
 app.unsetChord = function(){
-
 }
+/*
+var key = Utils.noteToIntegerTable['G'];
+var formula = Utils.scaleToKey(Utils.chordFormulas['Maj'], key);
+fretboardView.setChord(formula);
+fretboardView.refresh();
+*/
+//
+// Read metadata for jamtrack
+//
+Gnd.Ajax.get("/assets/tracks/rock-g-mayor/meta.json").then(function(meta){
+  var iframeElement   = document.querySelector('iframe');
+  var widget         = SC.Widget(iframeElement);
+  var lastIndex = 0;
+  var lastChord = null;
+  
+  var chords = meta.chords.chords;
+
+  widget.bind(SC.Widget.Events.PLAY_PROGRESS, function(progress){
+    
+    if(lastChord && lastChord.from > progress.currentPosition){
+      lastIndex = 0;
+    }
+    
+    for(var i=lastIndex; i<chords.length; i++){
+      var chord = chords[i];
+      var end = (chord.from + chord.duration) * 1000;
+      
+      if(progress.currentPosition < end){
+        if(progress.currentPosition > chord.from * 1000){
+          if ((chord.base != 'N') && 
+              (!lastChord || (chord.base !== lastChord.base))){
+            console.log(chord);
+            var quality = chord.bottom === '' ? 'Maj' : chord.bottom;
+            var key = Utils.noteToIntegerTable[chord.base];
+            var formula = Utils.intervalsToIngeger(Utils.chordFormulas[quality])
+            formula = Utils.scaleToKey(formula, key);
+            fretboardView.setChord(formula);
+            fretboardView.refresh();
+          }
+          lastIndex = i;
+          lastChord = chord;
+          break;
+        }
+      }else{
+        continue;
+      }
+    }
+  });
+});
 
 return function(pool){  
   var req = this; // this points to this Request object.
@@ -225,7 +273,7 @@ function updateChordsTable(key, scale, mode){
   var triads = new Gnd.Collection(Gnd.Model, {nosync: true});
   
   var triadsFormulas = {
-    'Maj': Utils.chordFormulas['Maj'],
+    '': Utils.chordFormulas['Maj'],
     'm': Utils.chordFormulas['m'],
     'dim': Utils.chordFormulas['dim']
   };
